@@ -82,19 +82,21 @@
             for (let i = 0; i < box_arr.length; i++) {
                 let tp = get_random_coordinate(box_height, 'top');
                 let lft = get_random_coordinate(box_width, 'left');
-                let unique_coord_arr = [];
 
-               while (unique_coord_arr.includes(lft)) {
+               while (coord_arr.includes(lft)) {
                     lft = get_random_coordinate(box_width, 'left');
                 }
 
                 box_arr[i].btn.style.top = tp + "px";
                 box_arr[i].btn.style.left = lft + "px";
+                console.log("Moving button " + i + " to left position " + lft);
 
-                for (let j = (tp - box_width); j <= (tp + box_width); j++) {
-                    coord_arr.push(j);
+                for (let j = (lft - box_width); j <= (lft + (box_width * 2)); j++) {
+                    coord_arr.push(j); //It may not be possible to prevent an x-overlap. An infinite loop may be forming
                 }
             }
+
+            console.log("==============MOVED=============");
         }
 
         // Create the boxes and then move them
@@ -121,10 +123,9 @@
 
                     box_arr.push(new Box(tp, lft, get_random_colour()));
                     document.body.appendChild(box_arr[i].btn);
-                    console.log("Created box " + i);
                 }
-                    // setTimeout(move_all_boxes, 2000);
-                    setInterval(move_all_boxes, 2000);
+                   // setTimeout(move_all_boxes, 2000);
+
             }
             else {
                 document.getElementById('box_num').style.color = 'red';
@@ -141,10 +142,12 @@
 <body>
 <p id="input_getter">How many boxes do you want (5 - 100)?<input id="box_num" type="text"></p>
 <input type="button" id="go_btn" value="Go!">
+<input type="button" id="move_it" value="MOVE!">
 
 <script>
     //Event handler for Go button
     document.getElementById("go_btn").onclick = start_madness;
+    document.getElementById("move_it").onclick = move_all_boxes;
 </script>
 </body>
 </html>
