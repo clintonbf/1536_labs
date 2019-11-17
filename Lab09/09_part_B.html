@@ -110,8 +110,10 @@
                 let lft_offset = 0;
 
                 for (let i = 0; i < num_boxes; i++) {
+                    // let tp = box_height + tp_offset;
+                    // let lft = box_width + lft_offset;
                     let tp = box_height + tp_offset;
-                    let lft = box_width + lft_offset;
+                    let lft = box_width + (box_width * i);
 
                     // if (lft + (2 * box_width) > innerWidth) { // if the box is going to be placed outside of the viewport
                     //     lft_offset = 0;
