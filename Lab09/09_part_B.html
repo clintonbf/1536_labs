@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!--suppress SpellCheckingInspection -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -70,42 +71,37 @@
             return Math.floor(coordinate);
         }
 
+        function check_for_unique_coordinate(coord, coord_arr) {
+
+        }
+
         // Move every box
         function move_all_boxes(){
-            let coord_arr = [];
+            let coord_arr = []; //an array of all of the x-coordinates that contain boxes
 
             for (let i = 0; i < box_arr.length; i++) {
                 let tp = get_random_coordinate(box_height, 'top');
                 let lft = get_random_coordinate(box_width, 'left');
-                let unique_coord = true;
+                let unique_coord_arr = [];
 
-                // Scan coord_arr for duplicate lfts
-                for (let j = 0; j < coord_arr.length; j++){
-                    if (coord_arr[j] === tp){
-                        unique_coord = false;
-                        break;
-                    }
+               while (unique_coord_arr.includes(lft)) {
+                    lft = get_random_coordinate(box_width, 'left');
                 }
 
-                if (unique_coord) {
-                    box_arr[i].btn.style.top = tp + "px";
-                    box_arr[i].btn.style.left = lft + "px";
+                box_arr[i].btn.style.top = tp + "px";
+                box_arr[i].btn.style.left = lft + "px";
 
-                    for (let k = (tp - 160); k <= tp + 160; k++){
-                        coord_arr.push(k);
-                    }
-                }
-                else {
-                    i--;
+                for (let j = (tp - box_width); j <= (tp + box_width); j++) {
+                    coord_arr.push(j);
                 }
             }
         }
 
-        // Create the boxes and get them jitterbugging
+        // Create the boxes and then move them
         function start_madness() {
             let num_boxes = document.getElementById("box_num").value;
 
-            if(validate_number(num_boxes)) {
+            if (validate_number(num_boxes)) {
                 let tp_offset = 0;
                 let lft_offset = 0;
 
@@ -127,7 +123,8 @@
                     document.body.appendChild(box_arr[i].btn);
                     console.log("Created box " + i);
                 }
-                    //setTimeout(move_all_boxes, 2000);
+                    // setTimeout(move_all_boxes, 2000);
+                    setInterval(move_all_boxes, 2000);
             }
             else {
                 document.getElementById('box_num').style.color = 'red';
